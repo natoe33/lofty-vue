@@ -2,14 +2,13 @@
 import { RouterLink, RouterView } from "vue-router";
 import HelloWorld from "./components/HelloWorld.vue";
 import Sidebar from "./components/Sidebar.vue";
-import { SidebarMenu } from "vue-sidebar-menu";
-import "vue-sidebar-menu/dist/vue-sidebar-menu.css";
+import NavBar from "./components/NavBar.vue";
 </script>
 <script>
 export default {
   components: {
-    SidebarMenu,
-    Sidebar
+    Sidebar,
+    NavBar
   },
   data() {
     return {
@@ -29,27 +28,23 @@ export default {
           icon: "fa fa-user",
         },
       ],
+      isSidebarActive: true
     };
   },
+  methods: {
+    toggleSidebar() {
+      this.isSidebarActive = !this.isSidebarActive
+    }
+  }
 };
 </script>
 
 <template>
-<Sidebar />
-  <!-- <SidebarMenu class="sidebar" :menu="menu" /> -->
-  <!-- <b-button v-b-toggle.sidebar-1>Toggle Sidebar</b-button>
-  <b-sidebar id="sidebar-1" title="Sidebar" shadow>
-  </b-sidebar> -->
-
   <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="@/assets/logo.svg"
-      width="125"
-      height="125"
-    />
-
+    <button class="btn btn-primary" @click="toggleSidebar()">{{isSidebarActive ? 'Close Sidebar' : 'Open Sidebar'}}</button>
+    <Sidebar :is-sidebar-active="isSidebarActive" :sidebar-toggle="toggleSidebar" />
+    <NavBar />
+    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
 
@@ -63,7 +58,7 @@ export default {
   <RouterView />
 </template>
 <style lang="scss">
-@import './assets/main.scss'
+@import './assets/main.scss';
 </style>
 
 <style scoped>
