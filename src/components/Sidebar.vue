@@ -12,9 +12,11 @@
           <ul>
             <li class="sidebar-item" v-for="listing in listings" :key="listing.listing">
               <router-link to="/">
+                <i class="material-icons-outlined">
+                  home
+                </i>
                 {{listing.listing}}
               </router-link>
-              <p>Link {{listing.link}}</p>
             </li>
             <li class="sidebar-item">
               <router-link to="/">
@@ -65,10 +67,10 @@ export default {
     async getData() {
       console.log('fetching data');
       //try {
-        let response = await fetch("http://192.168.4.97:8090/api/listings");
-        //let response = await fetch("/api/listings");
-        this.listings = await response.json();
-        console.log(this.listings);
+      let response = await fetch("http://192.168.4.97:8090/api/listings");
+      //let response = await fetch("/api/listings");
+      this.listings = await response.json();
+      console.log(this.listings);
       //} catch (error) {
       //  console.error(error);
       //}

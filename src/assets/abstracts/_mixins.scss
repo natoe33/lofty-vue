@@ -1,0 +1,24 @@
+@use "sass:math";
+@use "sass:map";
+@use "variables" as v;
+
+@mixin text-color($color) {
+  color: $color !important;
+}
+
+@mixin text-gradient($deg, $colors...) {
+  $deg: 45deg !default;
+
+  background-image: -webkit-linear-gradient($deg, $colors);
+  background-image: -moz-linear-gradient($deg, $colors);
+  background-image: -o-linear-gradient($deg, $colors);
+  background-image: linear-gradient($deg, $colors);
+}
+
+@mixin media-query($key) {
+  $size: map.get(v.$breakpoints, $key);
+
+  @media only screen and (max-width: $size) {
+    @content
+  }
+}

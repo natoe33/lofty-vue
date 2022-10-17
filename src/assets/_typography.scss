@@ -1,0 +1,125 @@
+@use "sass:math";
+@use "./abstracts/mixins" as m;
+@use "./abstracts/variables" as v;
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
+body {
+  font-family: v.$font-dm-sans;
+}
+
+h1 {
+  font-size: v.$fs-1;
+  font-weight: 700;
+  margin-bottom: v.$space-1;
+}
+
+h2 {
+  font-size: v.$fs-2;
+  margin-bottom: v.$space-1;
+}
+
+h3 {
+  font-size: v.$fs-3;
+  font-weight: 400;
+  color: v.$color-muted;
+}
+
+.material-icons-outlined {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.material-symbols-rounded {
+  font-variation-settings: 'FILL' 0,
+  'wght' 500,
+  'GRAD' 200,
+  'opsz' 48
+}
+
+a {
+  color: v.$color-secondary;
+
+  &.text-link {
+    text-underline: none;
+    text-decoration: none;
+
+    &:hover {
+      box-shadow: inset 0 -3px 0 v.$color-secondary;
+    }
+
+    &:after {
+      content: 'arrow_forward';
+      font-family: 'Material Icons Outlined', sans-serif;
+      font-size: 20px;
+      vertical-align: middle;
+      margin-left: .5rem;
+    }
+  }
+}
+
+.fs-1 {
+  font-size: v.$fs-1;
+}
+
+.text-hero {
+  font-size: calc(v.$fs-1 * 2);
+  line-height: 1;
+  letter-spacing: -0.05em;
+
+  &.is-separated {
+    letter-spacing: .5em;
+  }
+}
+
+.text-muted {
+  color: v.$color-muted;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-gradient {
+  color: #7319fa;
+  //background-image: -webkit-linear-gradient(45deg, #7319fa, #ff33b4, #ff7e29);
+  background-clip: text;
+  -webkit-background-clip: text;
+  text-fill-color: transparent;
+  -webkit-text-fill-color: transparent;
+  @include m.text-gradient(45deg, #7319fa, #ff33b4, #ff7e29);
+
+  &.green {
+    @include m.text-gradient(45deg, v.$color-primary, v.$color-primary-dark);
+  }
+
+  &.blue {
+    @include m.text-gradient(45deg, v.$color-secondary, v.$color-primary-dark);
+  }
+
+  &.orange {
+    @include m.text-gradient(45deg, #ffba52, #ff7366);
+  }
+
+  &.grey {
+    @include m.text-gradient(45deg, #4d4c4c, #403f3f);
+  }
+
+  &.gold {
+    @include m.text-gradient(45deg, #d6c79a, #edd9a1);
+  }
+}
+
+.icon-wrap {
+  background-color: scale-color(v.$color-primary, $alpha: -50%);
+  border-radius: v.$border-radius-12;
+  padding: $space-1;
+  margin-bottom: math.div($space-1, 0.8);
+  @extend .mdc-38;
+}
+
+.mdc-38 {
+  font-size: 38px;
+}
