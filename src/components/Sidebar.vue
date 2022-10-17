@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :class="['sidebar', isSidebarActive  ? '' : 'sidebar-hidden']">
+    <div :class="['sidebar', isSidebarActive ? '' : 'sidebar-hidden']">
       <div class="sidebar-content">
         <div class="sidebar-header">
           <p>Components menu</p>
@@ -10,7 +10,12 @@
         </div>
         <div class="sidebar-body">
           <ul>
-            <NavItem v-for="listing in data" :listing="listing.listing" :link="listing.link" />
+            <li class="sidebar-item" v-for="listing in listings" :key="listing.listing">
+              <router-link to="/">
+                {{listing.listing}}
+              </router-link>
+              <p>Link {{listing.link}}</p>
+            </li>
             <li class="sidebar-item">
               <router-link to="/">
                 <i class="material-icons-outlined">code</i>
@@ -34,41 +39,44 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import NavItem from "./NavItem.vue";
-const response = await fetch('http://192.168.4.97:8090/api/listings', {
-  mode: 'cors'
-})
-const data = await response.json()
-
-</script>
-
 <script>
 export default {
   name: "Sidebar",
-  components: {
-    NavItem
-  },
   props: {
     isSidebarActive: {
       type: Boolean,
-      default: null
+      default: null,
     },
     sidebarToggle: {
       type: Function,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
-      isDisabled: true
-    }
+      isDisabled: true,
+      listings: [],
+    };
   },
   methods: {
     updateValue(event) {
-      this.$emit('update:modelValue', event.target.value)
-    }
-  }
-}
+      this.$emit("update:modelValue", event.target.value);
+    },
+    async getData() {
+      console.log('fetching data');
+      //try {
+        let response = await fetch("http://192.168.4.97:8090/api/listings");
+        //let response = await fetch("/api/listings");
+        this.listings = await response.json();
+        console.log(this.listings);
+      //} catch (error) {
+      //  console.error(error);
+      //}
+    },
+  },
+  created() {
+    console.log('created()');
+    this.getData();
+  },
+};
 </script>
