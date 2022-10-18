@@ -1,5 +1,6 @@
 <script setup>
 import HelloWorld from '../components/HelloWorld.vue';
+import NavBar from "../components/NavBar.vue";
 </script>
 
 <script>
@@ -21,6 +22,8 @@ export default {
 <template>
   <main>
     <button class="btn btn-primary" @click="$emit('togSidebar')">{{isSidebarActive ? 'Close Sidebar' : 'Open Sidebar'}}</button>
+    <NavBar />
+    <ui-button icon="add" @click="$alert('Hello World')">Click Me</ui-button>
     <HelloWorld msg="Hello" />
   </main>
 </template>
