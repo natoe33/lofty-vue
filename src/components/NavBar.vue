@@ -9,7 +9,7 @@
       <el-sub-menu index="1">
         <template #title>
           <el-icon><location /></el-icon>
-          <span>Navigator One</span>
+          <span>Addresses</span>
         </template>
         <el-menu-item-group v-for="state in states" :key="state.state">
           <template #title>{{ state.state }}</template>
@@ -45,13 +45,13 @@ export default {
   },
   methods: {
     async getStates() {
-      let response = await fetch("http://192.168.4.97:8090/api/states");
+      let response = await fetch("http://192.168.4.99:8090/api/states");
       this.states = await response.json();
       console.log(this.states);
     },
     async getListings() {
       console.log("Fetching data: NavBar");
-      let response = await fetch("http://192.168.4.97:8090/api/listings");
+      let response = await fetch("http://192.168.4.99:8090/api/listings");
       this.listings = await response.json();
       console.log(this.listings);
     },
@@ -66,7 +66,7 @@ export default {
 <style scoped>
 .el-menu-vertical:not(.el-menu--collapse) {
   width: 250px;
-  min-height: 400px;
+  /*min-height: 100px;*/
   float: left;
 }
 </style>

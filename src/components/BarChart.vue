@@ -1,5 +1,5 @@
 <template>
-  <Bar :chart-data="chartData" :chart-options="chartOptions" />
+  <Bar :chart-data="chartData" />
 </template>
 <script>
 import { Bar } from "vue-chartjs";
@@ -27,27 +27,9 @@ export default {
   components: { Bar },
   props: {
     chartData: {
-      type: Array,
+      type: Object,
       required: false,
     },
-    chartLabels: {
-      type: Array,
-      required: true,
-    },
-  },
-  mounted() {
-    this.renderChart(
-      {
-        labels: this.chartLabels,
-        datasets: [
-          {
-            label: "value",
-            data: this.chartData,
-          },
-        ],
-      },
-      this.options
-    );
   },
 };
 </script>

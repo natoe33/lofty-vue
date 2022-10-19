@@ -1,10 +1,12 @@
-<script setup>
+<script>
 import HelloWorld from "../components/HelloWorld.vue";
 import NavBar from "../components/NavBar.vue";
-</script>
 
-<script>
 export default {
+  components: {
+    HelloWorld,
+    NavBar
+  },
   data() {
     return {
       isSidebarActive: true,
