@@ -9,7 +9,7 @@
       <el-sub-menu index="1">
         <template #title>
           <el-icon><location /></el-icon>
-          <span>Navigator One</span>
+          <span>Addresses</span>
         </template>
         <el-menu-item-group v-for="state in states" :key="state.state">
           <template #title>{{ state.state }}</template>
@@ -66,7 +66,7 @@ export default {
 <style scoped>
 .el-menu-vertical:not(.el-menu--collapse) {
   width: 250px;
-  min-height: 400px;
+  /*min-height: 100px;*/
   float: left;
 }
 </style>

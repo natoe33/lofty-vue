@@ -1,8 +1,9 @@
-<script setup>
-import { RouterView } from "vue-router";
-</script>
 <script>
+import { RouterView } from "vue-router";
 export default {
+  setup() {
+
+  },
   data() {
     return {
       menu: [
