@@ -1,13 +1,8 @@
 <script setup>
-import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "./components/HelloWorld.vue";
-import Sidebar from "./components/Sidebar.vue";
+import { RouterView } from "vue-router";
 </script>
 <script>
 export default {
-  components: {
-    Sidebar
-  },
   data() {
     return {
       menu: [
@@ -26,30 +21,14 @@ export default {
           icon: "fa fa-user",
         },
       ],
-      isSidebarActive: true
     };
   },
-  methods: {
-    toggleSidebar() {
-      this.isSidebarActive = !this.isSidebarActive
-    },
-    handleToggle() {
-      console.log('Received handleToggle event');
-      toggleSidebar();
-      this.isSidebarActive=!this.isSidebarActive;
-    }
-  }
 };
 </script>
 
 <template>
-  <Sidebar @togSidebar="handleToggle()" :is-sidebar-active="isSidebarActive" :sidebar-toggle="toggleSidebar" />
-  
   <RouterView />
 </template>
-<style lang="scss">
-@import './assets/main.scss';
-</style>
 
 <style scoped>
 header {
