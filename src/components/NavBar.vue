@@ -45,13 +45,13 @@ export default {
   },
   methods: {
     async getStates() {
-      let response = await fetch("http://192.168.4.97:8090/api/states");
+      let response = await fetch("http://192.168.4.99:8090/api/states");
       this.states = await response.json();
       console.log(this.states);
     },
     async getListings() {
       console.log("Fetching data: NavBar");
-      let response = await fetch("http://192.168.4.97:8090/api/listings");
+      let response = await fetch("http://192.168.4.99:8090/api/listings");
       this.listings = await response.json();
       console.log(this.listings);
     },

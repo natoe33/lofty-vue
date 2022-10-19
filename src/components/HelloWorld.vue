@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     async getDailyValues() {
-      await fetch("http://192.168.4.97:8090/api/daily_values")
+      await fetch("http://192.168.4.99:8090/api/daily_values")
       .then(response => response.json())
       .then(data => {
         console.log('res data');
