@@ -6,13 +6,13 @@ export default {
     BarChart,
   },
   props: {
-    msg: String
+    msg: String,
   },
   data() {
     return {
       loaded: false,
-      dailyValues: []
-    }
+      dailyValues: [],
+    };
   },
   setup() {
     const labels = ["A", "B", "C"];
@@ -25,45 +25,45 @@ export default {
           data: values,
         },
       ],
-    }
+    };
     return {
-      chartData
-    }
+      chartData,
+    };
   },
   methods: {
     async getDailyValues() {
       await fetch("http://192.168.4.99:8090/api/daily_values")
-      .then(response => response.json())
-      .then(data => {
-        console.log('res data');
-        console.log(data);
-        this.labels = data.map(this.getDateArray).reverse();
-        this.values = data.map(this.getValueArray).reverse();
-        this.chartData = {
-          labels: this.labels,
-          datasets: [
-            {
-              label: "rent",
-              data: this.values,
-            }
-          ]
-        };
-        this.loaded = true
-      })
-      .catch(err => {
-        console.error(err);
-      })
+        .then((response) => response.json())
+        .then((data) => {
+          // console.log("res data");
+          // console.log(data);
+          this.labels = data.map(this.getDateArray).reverse();
+          this.values = data.map(this.getValueArray).reverse();
+          this.chartData = {
+            labels: this.labels,
+            datasets: [
+              {
+                label: "rent",
+                data: this.values,
+              },
+            ],
+          };
+          this.loaded = true;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     },
     getDateArray(array) {
       return array.date_formatted;
     },
     getValueArray(array) {
       return array.sum;
-    }
+    },
   },
   mounted() {
     this.getDailyValues();
-  }
+  },
 };
 </script>
 
