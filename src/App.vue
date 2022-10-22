@@ -1,8 +1,8 @@
 <script>
 import { RouterView } from "vue-router";
 export default {
-  setup() {
-
+  components: {
+    RouterView,
   },
   data() {
     return {
