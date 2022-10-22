@@ -31,5 +31,19 @@ export default {
       required: false,
     },
   },
+  methods: {
+    renderChart: function () {
+      this.renderChart({
+        labels: this.chartData.labels,
+        datasets: this.chartData.datasets,
+      });
+    },
+  },
+  watch: {
+    chartData: function () {
+      this._chart.destroy();
+      this.renderChart();
+    },
+  },
 };
 </script>

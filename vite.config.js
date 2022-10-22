@@ -11,4 +11,7 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  devserver: {
+    proxy: "http://192.168.4.97:8090",
+  },
 });

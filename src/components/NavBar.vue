@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     async getStates() {
-      await fetch("http://192.168.4.99:8090/api/states")
+      await fetch("http://192.168.4.97:8090/api/states")
         .then((response) => response.json())
         .then((data) => {
           this.states = data;
@@ -50,10 +50,15 @@ export default {
         });
     },
     async getListings() {
-      // console.log("Fetching data: NavBar");
-      let response = await fetch("http://192.168.4.99:8090/api/listings");
-      this.listings = await response.json();
-      // console.log(this.listings);
+      await fetch("http://192.168.4.97:8090/api/listings")
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          this.listings = data;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     },
     listingClicked(event) {
       console.log("listing clicked");

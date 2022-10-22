@@ -2,11 +2,29 @@
 import BarChart from "./BarChart.vue";
 
 export default {
+  name: "HelloWorld",
+  inject: ["chartData"],
   components: {
     BarChart,
   },
   props: {
     msg: String,
+    chartObj: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+  },
+  watch: {
+    chartObj: function () {
+      console.log("HelloWorld: Chartdata updated");
+      this.chartData = this.chartObj;
+    },
+  },
+  provide() {
+    return {
+      chartObj: [],
+    };
   },
   data() {
     return {
@@ -35,8 +53,6 @@ export default {
       await fetch("http://192.168.4.99:8090/api/daily_values")
         .then((response) => response.json())
         .then((data) => {
-          // console.log("res data");
-          // console.log(data);
           this.labels = data.map(this.getDateArray).reverse();
           this.values = data.map(this.getValueArray).reverse();
           this.chartData = {
@@ -59,6 +75,10 @@ export default {
     },
     getValueArray(array) {
       return array.sum;
+    },
+    loadListingValues(args) {
+      console.log(args);
+      this.chartData = args;
     },
   },
   mounted() {
