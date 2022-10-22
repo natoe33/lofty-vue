@@ -1,8 +1,11 @@
 <template>
-  <Bar :chart-data="chartData" />
+  <Bar v-if="loaded" :chart-data="chartData" />
 </template>
 <script>
 import { Bar } from "vue-chartjs";
+import { useChartStore } from "../stores/charts";
+const store = useChartStore();
+
 import {
   Chart as ChartJS,
   Title,
@@ -25,6 +28,9 @@ ChartJS.register(
 export default {
   name: "BarChart",
   components: { Bar },
+  data: () => ({
+    loaded: false,
+  }),
   props: {
     chartData: {
       type: Object,
@@ -33,17 +39,19 @@ export default {
   },
   methods: {
     renderChart: function () {
+      this.loaded = false;
+      console.log(store);
       this.renderChart({
-        labels: this.chartData.labels,
-        datasets: this.chartData.datasets,
+        labels: this.store.chartData.labels,
+        datasets: this.store.chartData.datasets,
       });
     },
   },
-  watch: {
-    chartData: function () {
-      this._chart.destroy();
-      this.renderChart();
-    },
+  mounted() {
+    this.loaded = false;
+    store.fetchDailyValues();
+    this.renderChart();
+    this.loaded = true;
   },
 };
 </script>

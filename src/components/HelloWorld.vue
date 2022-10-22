@@ -1,88 +1,32 @@
 <script>
 import BarChart from "./BarChart.vue";
 
+import { storeToRefs } from "pinia";
+import { useChartStore } from "../stores/charts";
+
 export default {
   name: "HelloWorld",
-  inject: ["chartData"],
   components: {
     BarChart,
   },
   props: {
     msg: String,
-    chartObj: {
-      type: Object,
-      required: false,
-      default: null,
-    },
-  },
-  watch: {
-    chartObj: function () {
-      console.log("HelloWorld: Chartdata updated");
-      this.chartData = this.chartObj;
-    },
-  },
-  provide() {
-    return {
-      chartObj: [],
-    };
-  },
-  data() {
-    return {
-      loaded: false,
-      dailyValues: [],
-    };
   },
   setup() {
-    const labels = ["A", "B", "C"];
-    const values = [1, 2, 3];
-    let chartData = {
-      labels: labels,
-      datasets: [
-        {
-          label: "values",
-          data: values,
-        },
-      ],
-    };
+    const { chartData, loading, error } = storeToRefs(useChartStore());
+    const { fetchDailyValues, fetchListingLimit } = useChartStore();
+    //fetchDailyValues();
+
     return {
       chartData,
+      loading,
+      error,
+      fetchDailyValues,
+      fetchListingLimit,
     };
   },
-  methods: {
-    async getDailyValues() {
-      await fetch("http://192.168.4.99:8090/api/daily_values")
-        .then((response) => response.json())
-        .then((data) => {
-          this.labels = data.map(this.getDateArray).reverse();
-          this.values = data.map(this.getValueArray).reverse();
-          this.chartData = {
-            labels: this.labels,
-            datasets: [
-              {
-                label: "rent",
-                data: this.values,
-              },
-            ],
-          };
-          this.loaded = true;
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    },
-    getDateArray(array) {
-      return array.date_formatted;
-    },
-    getValueArray(array) {
-      return array.sum;
-    },
-    loadListingValues(args) {
-      console.log(args);
-      this.chartData = args;
-    },
-  },
   mounted() {
-    this.getDailyValues();
+    //this.fetchDailyValues();
   },
 };
 </script>
@@ -90,7 +34,7 @@ export default {
 <template>
   <div class="greetings">
     <h1>Lofty Daily Income</h1>
-    <BarChart ref="bar" :chart-data="this.chartData" v-if="loaded" />
+    <BarChart />
   </div>
 </template>
 
