@@ -7,12 +7,11 @@
           <span>Addresses</span>
         </template>
         <el-menu-item-group v-for="state in states" :key="state.state">
-          <template #title>{{ state.state }}</template>
+          <template #title>{{state.state}}</template>
           <template v-for="listing in listings" :key="listing.id">
             <el-menu-item
               v-if="listing.state == state.state"
-              v-on:click="$emit('listingClicked', [listing.id, 20])"
-            >
+              v-on:click="$emit('listingClicked', [listing.id, 20])">
               <el-icon><house /></el-icon>
               {{ listing.address }}
             </el-menu-item>

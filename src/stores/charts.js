@@ -49,6 +49,7 @@ export const useChartStore = defineStore({
       })
         .then((response) => response.json())
         .then((data) => {
+          console.log(data);
           this.chartData = {
             labels: data.map(this.getDateArray).reverse(),
             datasets: [

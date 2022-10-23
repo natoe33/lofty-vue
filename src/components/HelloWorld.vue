@@ -26,7 +26,7 @@ export default {
     };
   },
   mounted() {
-    //this.fetchDailyValues();
+    this.fetchDailyValues();
   },
 };
 </script>
@@ -34,7 +34,7 @@ export default {
 <template>
   <div class="greetings">
     <h1>Lofty Daily Income</h1>
-    <BarChart />
+    <BarChart :chart-data="chartData" />
   </div>
 </template>
 
