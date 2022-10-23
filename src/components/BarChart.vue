@@ -3,8 +3,6 @@
 </template>
 <script>
 import { Bar } from "vue-chartjs";
-import { useChartStore } from "../stores/charts";
-const store = useChartStore();
 
 import {
   Chart as ChartJS,
@@ -40,17 +38,16 @@ export default {
   methods: {
     renderChart: function () {
       this.loaded = false;
-      console.log(store);
+      //console.log(store);
       this.renderChart({
-        labels: this.store.chartData.labels,
-        datasets: this.store.chartData.datasets,
+        labels: this.chartData.labels,
+        datasets: this.chartData.datasets,
       });
     },
   },
   mounted() {
     this.loaded = false;
-    store.fetchDailyValues();
-    this.renderChart();
+    //this.renderChart();
     this.loaded = true;
   },
 };
