@@ -1,5 +1,5 @@
 <template>
-  <Bar v-if="loaded" :chart-data="chartData" />
+  <Bar v-if="loaded" :chart-data="chartData" :chart-options="chartOptions" />
 </template>
 <script>
 import { Bar } from "vue-chartjs";
@@ -28,22 +28,14 @@ export default {
   components: { Bar },
   computed: {
     chartData() {
-      console.log("computed.chartData");
-      console.log(this.chartData);
       return this.chartData;
-    }
+    },
   },
-  // setup() {
-  //   const chartData = this.computed(() => {
-  //     labels: this.chartData.labels;
-  //     datasets: this.chartData.datasets;
-  //   })
-  // },
   data: () => ({
     loaded: false,
   }),
   props: {
-    chartData: {
+    chartOptions: {
       type: Object,
       required: false,
     },
@@ -51,7 +43,6 @@ export default {
   methods: {
     renderChart: function () {
       this.loaded = false;
-      //console.log(store);
       this.renderChart({
         labels: this.chartData.labels,
         datasets: this.chartData.datasets,
@@ -60,7 +51,6 @@ export default {
   },
   mounted() {
     this.loaded = false;
-    //this.renderChart();
     this.loaded = true;
   },
 };

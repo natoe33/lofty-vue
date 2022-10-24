@@ -1,14 +1,13 @@
 <script>
 import HomeComp from "@/components/HomeComp.vue";
 import NavBar from "@/components/NavBar.vue";
-import { storeToRefs } from "pinia";
 import { useChartStore } from "../stores/charts";
 
 export default {
   components: {
     HomeComp,
     NavBar,
-},
+  },
   data() {
     return {
       isSidebarActive: true,
@@ -16,7 +15,6 @@ export default {
     };
   },
   setup() {
-    const { chartData, loading, error } = storeToRefs(useChartStore());
     const { fetchDailyValues, fetchListingLimit } = useChartStore();
     return {
       fetchDailyValues,
@@ -25,7 +23,7 @@ export default {
   },
   methods: {
     onListingClicked(e) {
-      console.log(`Received event 'ListingClicked':${e[0]} + ${e[1]}`);
+      //console.log(`Received event 'ListingClicked':${e[0]} + ${e[1]}`);
       this.fetchListingLimit(e[0], e[1]);
     },
   },
@@ -33,10 +31,14 @@ export default {
 </script>
 
 <template>
-  <main>
-    <NavBar @ListingClicked="onListingClicked" />
-    <HomeComp msg="Hello" />
-  </main>
+  <el-container>
+    <el-aside width="250px">
+      <NavBar @ListingClicked="onListingClicked" :home="true" />
+    </el-aside>
+    <el-main>
+      <HomeComp msg="Hello" />
+    </el-main>
+  </el-container>
 </template>
 
 <style></style>

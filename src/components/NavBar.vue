@@ -1,7 +1,21 @@
 <template>
   <el-col :span="3">
-    <el-menu default-active="1" class="el-menu-vertical">
-      <el-sub-menu index="1">
+    <el-menu default-active="2" class="el-menu-vertical">
+      <el-menu-item v-if="home" index="1">
+        <el-icon><icon-menu /></el-icon>
+        <router-link to="/import">
+          <el-link type="default" :underline="false"> Import </el-link>
+        </router-link>
+      </el-menu-item>
+      <el-menu-item v-else index="1">
+        <el-icon><icon-menu /></el-icon>
+        <router-link to="/"
+          ><el-link type="default" :underline="false"
+            >Home</el-link
+          ></router-link
+        >
+      </el-menu-item>
+      <el-sub-menu index="2">
         <template #title>
           <el-icon><location /></el-icon>
           <span>Addresses</span>
@@ -12,10 +26,10 @@
           :index="index"
         >
           <template #title>{{ state.state }}</template>
-          <template v-for="(listing, index) in listings" :key="listing.id">
+          <template v-for="listing in listings" :key="listing.id">
             <el-menu-item
               v-if="listing.state == state.state"
-              v-on:click="$emit('listingClicked', [listing.id, 20])"
+              v-on:click="$emit('listingClicked', [listing.id, 30])"
               :index="listing.listing"
             >
               <el-icon><house /></el-icon>
@@ -28,57 +42,47 @@
   </el-col>
 </template>
 
-<script>
-import { Location, House } from "@element-plus/icons-vue";
-export default {
-  name: "NavBar",
-  emits: ["ListingClicked", "listingClicked"],
-  components: {
-    Location,
-    House,
+<script setup>
+import { Location, House, Menu as IconMenu } from "@element-plus/icons-vue";
+import { onMounted, ref } from "vue";
+
+// eslint-disable-next-line no-unused-vars
+const props = defineProps({
+  home: {
+    type: Boolean,
+    required: true,
   },
-  data() {
-    return {
-      states: [],
-      listings: [],
-    };
-  },
-  methods: {
-    async getStates() {
-      await fetch("http://192.168.4.99:8090/api/states")
-        .then((response) => response.json())
-        .then((data) => {
-          this.states = data;
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    },
-    async getListings() {
-      await fetch("http://192.168.4.99:8090/api/listings")
-        .then((response) => response.json())
-        .then((data) => {
-          // console.log(data);
-          this.listings = data;
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    },
-    listingClicked(event) {
-      console.log("listing clicked");
-      this.$emit("ListingClicked", event.target.value);
-    },
-    async getListingData() {
-      console.log(`clicked`);
-    },
-  },
-  created() {
-    // console.log("NavBar.created()");
-    this.getStates();
-    this.getListings();
-  },
+});
+
+const states = ref([]);
+const listings = ref([]);
+
+const loadStates = async () => {
+  await fetch("http://192.168.4.99:8090/api/states")
+    .then((response) => response.json())
+    .then((data) => {
+      states.value = data;
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 };
+
+const loadListings = async () => {
+  await fetch("http://192.168.4.99:8090/api/listings")
+    .then((response) => response.json())
+    .then((data) => {
+      listings.value = data;
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
+
+onMounted(() => {
+  loadStates();
+  loadListings();
+});
 </script>
 <style scoped>
 .el-menu-vertical:not(.el-menu--collapse) {

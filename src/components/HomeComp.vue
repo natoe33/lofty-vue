@@ -13,12 +13,15 @@ export default {
     msg: String,
   },
   setup() {
-    const { chartData, loading, error } = storeToRefs(useChartStore());
+    const { chartData, chartOptions, loading, error } = storeToRefs(
+      useChartStore()
+    );
     const { fetchDailyValues, fetchListingLimit } = useChartStore();
     //fetchDailyValues();
 
     return {
       chartData,
+      chartOptions,
       loading,
       error,
       fetchDailyValues,
@@ -32,10 +35,16 @@ export default {
 </script>
 
 <template>
-  <div class="greetings">
-    <h1>Lofty Daily Income</h1>
-    <BarChart :chart-data="chartData" />
-  </div>
+  <el-row class="row-bg" justify="center">
+    <el-col :span="10">
+      <h1>Lofty Daily Income</h1>
+    </el-col>
+  </el-row>
+  <el-row>
+    <el-col :span="23">
+      <BarChart :chart-data="chartData" :chart-options="chartOptions" />
+    </el-col>
+  </el-row>
 </template>
 
 <style scoped>
@@ -48,18 +57,18 @@ h1 {
 h3 {
   font-size: 1.2rem;
 }
-.greetings {
+.main {
   float: left;
   padding-left: 2rem;
 }
-.greetings h1,
-.greetings h3 {
+.main h1,
+.main h3 {
   text-align: center;
 }
 
 @media (min-width: 1024px) {
-  .greetings h1,
-  .greetings h3 {
+  .main h1,
+  .main h3 {
     text-align: left;
   }
 }

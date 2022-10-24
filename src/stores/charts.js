@@ -5,12 +5,16 @@ export const useChartStore = defineStore({
   state: () => ({
     title: null,
     chartData: [],
+    chartOptions: [],
     loading: true,
     error: null,
   }),
   getters: {
     getChartData: (state) => {
       return state.chartData;
+    },
+    getChartOptions: (state) => {
+      return state.chartOptions;
     },
   },
   actions: {
@@ -30,6 +34,10 @@ export const useChartStore = defineStore({
             ],
           };
           this.loading = false;
+          this.chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+          };
         })
         .catch((error) => (this.error = error));
     },
@@ -61,8 +69,6 @@ export const useChartStore = defineStore({
             ],
           };
           this.loading = false;
-          // console.log(this.chartData.labels);
-          // console.log(this.chartData.datasets);
         })
         .catch((err) => {
           console.error(err);
