@@ -1,17 +1,12 @@
 <script>
-import HelloWorld from "@/components/HelloWorld.vue";
+import HomeComp from "@/components/HomeComp.vue";
 import NavBar from "@/components/NavBar.vue";
+import { useChartStore } from "../stores/charts";
 
 export default {
   components: {
-    HelloWorld,
+    HomeComp,
     NavBar,
-  },
-  emits: ["loadListingValues"],
-  provide() {
-    return {
-      chartData: [],
-    };
   },
   data() {
     return {
@@ -19,67 +14,31 @@ export default {
       listingValues: [],
     };
   },
+  setup() {
+    const { fetchDailyValues, fetchListingLimit } = useChartStore();
+    return {
+      fetchDailyValues,
+      fetchListingLimit,
+    };
+  },
   methods: {
     onListingClicked(e) {
-      console.log(`Received event 'ListingClicked':${e[0]} + ${e[1]}`);
-      this.getListingDataLimit(e[0], e[1]);
-      this.chartData = {
-        labels: this.listingValues.map(this.getDateArray).reverse(),
-        datasets: [
-          {
-            label: "Rent",
-            data: this.listingValues.map(this.getValueArray).reverse(),
-          },
-        ],
-      };
-      this.$emit("loadListingValues", { chartData: this.chartData });
-    },
-    async getListingData(listing) {
-      await fetch(`http://192.168.4.97:8090/api/listing_values?id=${listing}`)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    },
-    async getListingDataLimit(id, lim) {
-      await fetch(`http://192.168.4.99:8090/api/listing_values`, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          listing: id,
-          limit: lim,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          this.listingValues = data;
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    },
-    getDateArray(array) {
-      return array.date_formatted;
-    },
-    getValueArray(array) {
-      return array.sum;
+      //console.log(`Received event 'ListingClicked':${e[0]} + ${e[1]}`);
+      this.fetchListingLimit(e[0], e[1]);
     },
   },
 };
 </script>
 
 <template>
-  <main>
-    <NavBar @ListingClicked="onListingClicked" />
-    <HelloWorld msg="Hello" :chartObj="this.chartData" />
-  </main>
+  <el-container>
+    <el-aside width="250px">
+      <NavBar @ListingClicked="onListingClicked" :home="true" />
+    </el-aside>
+    <el-main>
+      <HomeComp msg="Hello" />
+    </el-main>
+  </el-container>
 </template>
 
 <style></style>

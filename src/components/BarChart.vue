@@ -1,8 +1,9 @@
 <template>
-  <Bar :chart-data="chartData" />
+  <Bar v-if="loaded" :chart-data="chartData" :chart-options="chartOptions" />
 </template>
 <script>
 import { Bar } from "vue-chartjs";
+
 import {
   Chart as ChartJS,
   Title,
@@ -25,25 +26,32 @@ ChartJS.register(
 export default {
   name: "BarChart",
   components: { Bar },
+  computed: {
+    chartData() {
+      return this.chartData;
+    },
+  },
+  data: () => ({
+    loaded: false,
+  }),
   props: {
-    chartData: {
+    chartOptions: {
       type: Object,
       required: false,
     },
   },
   methods: {
     renderChart: function () {
+      this.loaded = false;
       this.renderChart({
         labels: this.chartData.labels,
         datasets: this.chartData.datasets,
       });
     },
   },
-  watch: {
-    chartData: function () {
-      this._chart.destroy();
-      this.renderChart();
-    },
+  mounted() {
+    this.loaded = false;
+    this.loaded = true;
   },
 };
 </script>
