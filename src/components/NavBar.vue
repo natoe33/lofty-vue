@@ -58,7 +58,7 @@ const states = ref([]);
 const listings = ref([]);
 
 const loadStates = async () => {
-  await fetch("http://192.168.4.99:8090/api/states")
+  await fetch("https://api.nateflateau.com/api/states")
     .then((response) => response.json())
     .then((data) => {
       states.value = data;
@@ -69,7 +69,7 @@ const loadStates = async () => {
 };
 
 const loadListings = async () => {
-  await fetch("http://192.168.4.99:8090/api/listings")
+  await fetch("https://api.nateflateau.com/api/listings")
     .then((response) => response.json())
     .then((data) => {
       listings.value = data;
