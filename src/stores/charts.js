@@ -21,7 +21,7 @@ export const useChartStore = defineStore({
     async fetchDailyValues() {
       this.loading = true;
       // debugger;
-      await fetch("http://192.168.4.99:8090/api/daily_values")
+      await fetch("https://api.nateflateau.com/api/daily_values")
         .then((response) => response.json())
         .then((data) => {
           this.chartData = {
@@ -44,7 +44,7 @@ export const useChartStore = defineStore({
     async fetchListingLimit(id, limit) {
       console.log(`fetching listings - id: ${id} limit: ${limit}`);
       this.loading = true;
-      await fetch(`http://192.168.4.99:8090/api/listing_values`, {
+      await fetch(`https://api.nateflateau.com/api/listing_values`, {
         method: "POST",
         mode: "cors",
         headers: {

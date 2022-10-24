@@ -9,7 +9,7 @@
       <el-upload
         ref="upload"
         class="upload"
-        action="http://192.168.4.99:8090/api/submit"
+        action="https://api.nateflateau.com/api/submit"
         accept="csv"
         :limit="1"
         :on-exceed="handleExceed"
