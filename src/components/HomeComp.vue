@@ -5,7 +5,7 @@ import { storeToRefs } from "pinia";
 import { useChartStore } from "../stores/charts";
 
 export default {
-  name: "HelloWorld",
+  name: "HomeComp",
   components: {
     BarChart,
   },

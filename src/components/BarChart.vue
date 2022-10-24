@@ -26,6 +26,19 @@ ChartJS.register(
 export default {
   name: "BarChart",
   components: { Bar },
+  computed: {
+    chartData() {
+      console.log("computed.chartData");
+      console.log(this.chartData);
+      return this.chartData;
+    }
+  },
+  // setup() {
+  //   const chartData = this.computed(() => {
+  //     labels: this.chartData.labels;
+  //     datasets: this.chartData.datasets;
+  //   })
+  // },
   data: () => ({
     loaded: false,
   }),

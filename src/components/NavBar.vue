@@ -6,12 +6,18 @@
           <el-icon><location /></el-icon>
           <span>Addresses</span>
         </template>
-        <el-menu-item-group v-for="state in states" :key="state.state">
-          <template #title>{{state.state}}</template>
-          <template v-for="listing in listings" :key="listing.id">
+        <el-menu-item-group
+          v-for="(state, index) in states"
+          :key="state.state"
+          :index="index"
+        >
+          <template #title>{{ state.state }}</template>
+          <template v-for="(listing, index) in listings" :key="listing.id">
             <el-menu-item
               v-if="listing.state == state.state"
-              v-on:click="$emit('listingClicked', [listing.id, 20])">
+              v-on:click="$emit('listingClicked', [listing.id, 20])"
+              :index="listing.listing"
+            >
               <el-icon><house /></el-icon>
               {{ listing.address }}
             </el-menu-item>
@@ -39,7 +45,7 @@ export default {
   },
   methods: {
     async getStates() {
-      await fetch("http://192.168.4.97:8090/api/states")
+      await fetch("http://192.168.4.99:8090/api/states")
         .then((response) => response.json())
         .then((data) => {
           this.states = data;
@@ -49,10 +55,10 @@ export default {
         });
     },
     async getListings() {
-      await fetch("http://192.168.4.97:8090/api/listings")
+      await fetch("http://192.168.4.99:8090/api/listings")
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           this.listings = data;
         })
         .catch((err) => {

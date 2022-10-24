@@ -34,6 +34,7 @@ export const useChartStore = defineStore({
         .catch((error) => (this.error = error));
     },
     async fetchListingLimit(id, limit) {
+      console.log(`fetching listings - id: ${id} limit: ${limit}`);
       this.loading = true;
       await fetch(`http://192.168.4.99:8090/api/listing_values`, {
         method: "POST",
@@ -59,6 +60,9 @@ export const useChartStore = defineStore({
               },
             ],
           };
+          this.loading = false;
+          // console.log(this.chartData.labels);
+          // console.log(this.chartData.datasets);
         })
         .catch((err) => {
           console.error(err);

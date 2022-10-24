@@ -1,14 +1,14 @@
 <script>
-import HelloWorld from "@/components/HelloWorld.vue";
+import HomeComp from "@/components/HomeComp.vue";
 import NavBar from "@/components/NavBar.vue";
 import { storeToRefs } from "pinia";
 import { useChartStore } from "../stores/charts";
 
 export default {
   components: {
-    HelloWorld,
+    HomeComp,
     NavBar,
-  },
+},
   data() {
     return {
       isSidebarActive: true,
@@ -35,7 +35,7 @@ export default {
 <template>
   <main>
     <NavBar @ListingClicked="onListingClicked" />
-    <HelloWorld msg="Hello" />
+    <HomeComp msg="Hello" />
   </main>
 </template>
 
