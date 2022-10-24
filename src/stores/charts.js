@@ -42,7 +42,7 @@ export const useChartStore = defineStore({
         .catch((error) => (this.error = error));
     },
     async fetchListingLimit(id, limit) {
-      console.log(`fetching listings - id: ${id} limit: ${limit}`);
+      // console.log(`fetching listings - id: ${id} limit: ${limit}`);
       this.loading = true;
       await fetch(`https://api.nateflateau.com/api/listing_values`, {
         method: "POST",
@@ -58,7 +58,7 @@ export const useChartStore = defineStore({
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           this.chartData = {
             labels: data.map(this.getDateArray).reverse(),
             datasets: [
