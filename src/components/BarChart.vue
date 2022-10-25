@@ -46,6 +46,7 @@ export default {
       this.renderChart({
         labels: this.chartData.labels,
         datasets: this.chartData.datasets,
+        chartOptions: this.chartOptions,
       });
     },
   },

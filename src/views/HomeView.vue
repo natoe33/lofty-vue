@@ -24,20 +24,23 @@ export default {
   methods: {
     onListingClicked(e) {
       //console.log(`Received event 'ListingClicked':${e[0]} + ${e[1]}`);
-      this.fetchListingLimit(e[0], e[1], e[2]);
+      this.fetchListingLimit(e[0], e[1]);
     },
+  },
+  created() {
+    this.fetchDailyValues();
   },
 };
 </script>
 
 <template>
   <div class="container">
-    <el-header>
+    <div class="level">
       <NavBar @ListingClicked="onListingClicked" :home="true" />
-    </el-header>
-    <el-main>
-      <HomeComp msg="Hello" />
-    </el-main>
+    </div>
+    <section class="section">
+      <HomeComp />
+    </section>
   </div>
 </template>
 

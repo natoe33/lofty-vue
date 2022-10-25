@@ -4,9 +4,19 @@ export const useChartStore = defineStore({
   id: "chart",
   state: () => ({
     title: null,
+    limit: 30,
     chartData: [],
-    chartOptions: [],
-    loading: true,
+    chartOptions: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        title: {
+          display: true,
+          text: "",
+        },
+      },
+    },
+    loading: false,
     error: null,
   }),
   getters: {
@@ -47,9 +57,9 @@ export const useChartStore = defineStore({
           };
           this.loading = false;
         })
-        .catch((error) => (this.error = error));
+        .catch((error) => this.$patch({ error: error }));
     },
-    async fetchListingLimit(id, address, limit) {
+    async fetchListingLimit(id, address) {
       // console.log(`fetching listings - id: ${id} limit: ${limit}`);
       this.loading = true;
       this.title = address;
@@ -62,7 +72,7 @@ export const useChartStore = defineStore({
         },
         body: JSON.stringify({
           listing: id,
-          limit: limit,
+          limit: this.limit,
         }),
       })
         .then((response) => response.json())
@@ -102,6 +112,9 @@ export const useChartStore = defineStore({
     },
     getRentArray(array) {
       return array.value;
+    },
+    updateLimit(num) {
+      return (this.limit = num);
     },
   },
 });
