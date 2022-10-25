@@ -1,5 +1,5 @@
 <template>
-  <el-row>
+  <!-- <el-row>
     <el-col :span="24">
       <h1>Read CSV</h1>
     </el-col>
@@ -30,29 +30,29 @@
   </el-row>
   <el-main class="main">
     <div ref="table"></div>
-  </el-main>
+  </el-main> -->
 </template>
 <script setup lang="ts">
 import { ref, reactive, onMounted } from "vue";
-import { genFileId } from "element-plus";
-import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
+//import { genFileId } from "element-plus";
+//import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
 //import { TabulatorFull as Tabulator } from "tabulator-tables";
 
-const upload = ref<UploadInstance>();
+// const upload = ref<UploadInstance>();
 
-const handleExceed: UploadProps['onExceed'] = (files) => {
-    upload.value!.clearFiles();
-    const file = files[0] as UploadRawFile;
-    file.uid = genFileId();
-    upload.value!.handleStart(file);
-}
+// const handleExceed: UploadProps['onExceed'] = (files) => {
+//     upload.value!.clearFiles();
+//     const file = files[0] as UploadRawFile;
+//     file.uid = genFileId();
+//     upload.value!.handleStart(file);
+// }
 
-const submitUpload = () => {
-    upload.value!.submit()
-}
+// const submitUpload = () => {
+//     upload.value!.submit()
+// }
 
 const handleSuccess = () => {
-    alert("Upload successful");
+  alert("Upload successful");
 }
 
 </script>

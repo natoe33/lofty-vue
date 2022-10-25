@@ -1,7 +1,7 @@
 <script>
 import HomeComp from "@/components/HomeComp.vue";
 import NavBar from "@/components/NavBar.vue";
-import { useChartStore } from "../stores/charts";
+import { useChartStore } from "@/stores/charts";
 
 export default {
   components: {
@@ -31,14 +31,16 @@ export default {
 </script>
 
 <template>
-  <el-container>
+  <div class="container">
     <el-header>
       <NavBar @ListingClicked="onListingClicked" :home="true" />
     </el-header>
     <el-main>
       <HomeComp msg="Hello" />
     </el-main>
-  </el-container>
+  </div>
 </template>
 
-<style></style>
+<style>
+
+</style>
