@@ -24,7 +24,7 @@ export default {
   methods: {
     onListingClicked(e) {
       //console.log(`Received event 'ListingClicked':${e[0]} + ${e[1]}`);
-      this.fetchListingLimit(e[0], e[1]);
+      this.fetchListingLimit(e[0], e[1], e[2]);
     },
   },
 };
@@ -32,9 +32,9 @@ export default {
 
 <template>
   <el-container>
-    <el-aside width="250px">
+    <el-header>
       <NavBar @ListingClicked="onListingClicked" :home="true" />
-    </el-aside>
+    </el-header>
     <el-main>
       <HomeComp msg="Hello" />
     </el-main>
