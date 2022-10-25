@@ -4,6 +4,7 @@ export const useChartStore = defineStore({
   id: "chart",
   state: () => ({
     title: null,
+    limit: 30,
     chartData: [],
     chartOptions: {
       responsive: true,
@@ -11,11 +12,11 @@ export const useChartStore = defineStore({
       plugins: {
         title: {
           display: true,
-          text: title,
+          text: "",
         },
       },
     },
-    loading: true,
+    loading: false,
     error: null,
   }),
   getters: {
@@ -28,13 +29,13 @@ export const useChartStore = defineStore({
   },
   actions: {
     async fetchDailyValues() {
-      state.loading = true;
-      state.title = "Combined Values";
+      this.loading = true;
+      this.title = "Combined Values";
       // debugger;
       await fetch("https://api.nateflateau.com/api/daily_values")
         .then((response) => response.json())
         .then((data) => {
-          state.chartData = {
+          this.chartData = {
             labels: data.map(this.getDateArray).reverse(),
             datasets: [
               {
@@ -44,24 +45,24 @@ export const useChartStore = defineStore({
               },
             ],
           };
-          // this.chartOptions = {
-          //   responsive: true,
-          //   maintainAspectRatio: false,
-          //   plugins: {
-          //     title: {
-          //       display: true,
-          //       text: this.title,
-          //     },
-          //   },
-          // };
-          state.loading = false;
+          this.chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              title: {
+                display: true,
+                text: this.title,
+              },
+            },
+          };
+          this.loading = false;
         })
-        .catch((error) => (state.error = error));
+        .catch((error) => this.$patch({ error: error }));
     },
-    async fetchListingLimit(id, address, limit) {
+    async fetchListingLimit(id, address) {
       // console.log(`fetching listings - id: ${id} limit: ${limit}`);
-      state.loading = true;
-      state.title = address;
+      this.loading = true;
+      this.title = address;
       await fetch(`https://api.nateflateau.com/api/listing_values`, {
         method: "POST",
         mode: "cors",
@@ -71,13 +72,13 @@ export const useChartStore = defineStore({
         },
         body: JSON.stringify({
           listing: id,
-          limit: limit,
+          limit: this.limit,
         }),
       })
         .then((response) => response.json())
         .then((data) => {
           // console.log(data);
-          state.chartData = {
+          this.chartData = {
             labels: data.map(this.getDateArray).reverse(),
             datasets: [
               {
@@ -87,17 +88,17 @@ export const useChartStore = defineStore({
               },
             ],
           };
-          state.chartOptions = {
+          this.chartOptions = {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
               title: {
                 display: true,
-                text: state.title,
+                text: this.title,
               },
             },
           };
-          state.loading = false;
+          this.loading = false;
         })
         .catch((err) => {
           console.error(err);
@@ -111,6 +112,9 @@ export const useChartStore = defineStore({
     },
     getRentArray(array) {
       return array.value;
+    },
+    updateLimit(num) {
+      return (this.limit = num);
     },
   },
 });

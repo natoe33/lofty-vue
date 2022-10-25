@@ -1,52 +1,21 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import BarChart from "./BarChart.vue";
 import { storeToRefs } from "pinia";
 import { useChartStore } from "../stores/charts";
 
-const { chartData, chartOptions, loading, error } = ref(storeToRefs(useChartStore()));
-const { fetchDailyValues, fetchListingLimit } = ref(useChartStore());
+const { chartData, chartOptions, limit } = storeToRefs(useChartStore());
+const { fetchDailyValues, updateLimit } = useChartStore();
 
-const props = ref(defineProps({
-  msg: {
-    type: String,
-    required: false
-  }
-})
-)
+const radioSelected = (item) => {
+  updateLimit(item);
+  console.log(`limit: ${limit.value}`);
+};
 
 onMounted(() => {
+  console.log(`limit: ${limit.value}`);
   fetchDailyValues();
-})
-// export default {
-//   name: "HomeComp",
-//   components: {
-//     BarChart,
-//   },
-//   props: {
-//     msg: String,
-//   },
-//   setup() {
-//     const { chartData, chartOptions, loading, error } = storeToRefs(
-//       useChartStore()
-//     );
-//     const { fetchDailyValues, fetchListingLimit } = useChartStore();
-//     //fetchDailyValues();
-
-//     return {
-//       chartData,
-//       chartOptions,
-//       loading,
-//       error,
-//       fetchDailyValues,
-//       fetchListingLimit,
-//     };
-//   },
-//   mounted() {
-//     console.log(this.chartOptions);
-//     this.fetchDailyValues();
-//   },
-// };
+});
 </script>
 
 <template>
@@ -54,33 +23,36 @@ onMounted(() => {
     <h1 class="title">Lofty Daily Income</h1>
     <div class="box">
       <BarChart :chart-data="chartData" :chart-options="chartOptions" />
+      <div class="control">
+        <label class="radio">
+          <input
+            type="radio"
+            name="limit"
+            value="30"
+            @click="radioSelected(30)"
+            checked
+          />1 month
+        </label>
+        <label class="radio">
+          <input
+            type="radio"
+            name="limit"
+            value="90"
+            @click="radioSelected(90)"
+          />3 months
+        </label>
+        <label class="radio">
+          <input
+            type="radio"
+            name="limit"
+            value="180"
+            @click="radioSelected(180)"
+          />
+          6 months
+        </label>
+      </div>
     </div>
   </div>
 </template>
 
-<style scoped>
-h1 {
-  font-weight: 500;
-  font-size: 2.6rem;
-  top: -10px;
-}
-
-h3 {
-  font-size: 1.2rem;
-}
-.main {
-  float: left;
-  padding-left: 2rem;
-}
-.main h1,
-.main h3 {
-  text-align: center;
-}
-
-@media (min-width: 1024px) {
-  .main h1,
-  .main h3 {
-    text-align: left;
-  }
-}
-</style>
+<style scoped></style>

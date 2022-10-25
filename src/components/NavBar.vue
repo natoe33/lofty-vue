@@ -43,15 +43,11 @@
                 >
                   <ul>
                     <a class="navbar-item">{{ state.state }}</a>
-                    <div v-for="listing in listings">
+                    <div v-for="listing in listings" :key="listing.id">
                       <a
                         class="navbar-item"
                         v-on:click="
-                          $emit('listingClicked', [
-                            listing.id,
-                            listing.address,
-                            limit,
-                          ])
+                          $emit('listingClicked', [listing.id, listing.address])
                         "
                         v-if="listing.state == state.state"
                         >{{ listing.address }}</a
@@ -69,7 +65,6 @@
 </template>
 
 <script setup>
-//import { Location, House, Menu as IconMenu } from "@element-plus/icons-vue";
 import { onMounted, ref } from "vue";
 
 // eslint-disable-next-line no-unused-vars
@@ -82,11 +77,11 @@ const props = defineProps({
 
 const states = ref([]);
 const listings = ref([]);
-const limit = ref(30);
+// const limit = ref(30);
 const addressActive = ref(false);
 const burgerActive = ref(false);
 
-const setItemActive = (event) => {
+const setItemActive = () => {
   addressActive.value = !addressActive.value;
 };
 

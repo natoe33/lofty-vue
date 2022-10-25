@@ -24,8 +24,11 @@ export default {
   methods: {
     onListingClicked(e) {
       //console.log(`Received event 'ListingClicked':${e[0]} + ${e[1]}`);
-      this.fetchListingLimit(e[0], e[1], e[2]);
+      this.fetchListingLimit(e[0], e[1]);
     },
+  },
+  created() {
+    this.fetchDailyValues();
   },
 };
 </script>
@@ -36,7 +39,7 @@ export default {
       <NavBar @ListingClicked="onListingClicked" :home="true" />
     </div>
     <section class="section">
-      <HomeComp msg="Hello" />
+      <HomeComp />
     </section>
   </div>
 </template>
