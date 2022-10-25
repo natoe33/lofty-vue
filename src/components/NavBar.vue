@@ -5,16 +5,14 @@
       <el-menu-item v-if="home" index="1">
         <el-icon><icon-menu /></el-icon>
         <router-link to="/import">
-          <el-link type="default" :underline="false"> Import </el-link>
+          <el-link type="primary" :underline="false">Import</el-link>
         </router-link>
       </el-menu-item>
       <el-menu-item v-else index="1">
         <el-icon><icon-menu /></el-icon>
-        <router-link to="/"
-          ><el-link type="default" :underline="false"
-            >Home</el-link
-          ></router-link
-        >
+        <router-link to="/">
+          <el-link type="primary" :underline="false">Home</el-link>
+        </router-link>
       </el-menu-item>
       <el-sub-menu index="2" v-if="home">
         <template #title>
