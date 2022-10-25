@@ -1,6 +1,7 @@
 <template>
-  <el-col :span="3">
-    <el-menu default-active="2" class="el-menu-vertical">
+  <el-col :span="24">
+    <!-- <el-menu default-active="2" class="el-menu-vertical" mode="horizontal"> -->
+      <el-menu default-active="2" mode="horizontal">
       <el-menu-item v-if="home" index="1">
         <el-icon><icon-menu /></el-icon>
         <router-link to="/import">
@@ -15,7 +16,7 @@
           ></router-link
         >
       </el-menu-item>
-      <el-sub-menu index="2">
+      <el-sub-menu index="2" v-if="home">
         <template #title>
           <el-icon><location /></el-icon>
           <span>Addresses</span>
@@ -29,7 +30,7 @@
           <template v-for="listing in listings" :key="listing.id">
             <el-menu-item
               v-if="listing.state == state.state"
-              v-on:click="$emit('listingClicked', [listing.id, 30])"
+              v-on:click="$emit('listingClicked', [listing.id, listing.address, 30])"
               :index="listing.listing"
             >
               <el-icon><house /></el-icon>

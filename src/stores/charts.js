@@ -20,6 +20,7 @@ export const useChartStore = defineStore({
   actions: {
     async fetchDailyValues() {
       this.loading = true;
+      this.title = "Combined Values";
       // debugger;
       await fetch("https://api.nateflateau.com/api/daily_values")
         .then((response) => response.json())
@@ -30,20 +31,28 @@ export const useChartStore = defineStore({
               {
                 label: "rent",
                 data: data.map(this.getValueArray).reverse(),
+                backgroundColor: "#f87979",
               },
             ],
           };
-          this.loading = false;
           this.chartOptions = {
             responsive: true,
             maintainAspectRatio: false,
+            plugins: {
+              title: {
+                display: true,
+                text: this.title,
+              },
+            },
           };
+          this.loading = false;
         })
         .catch((error) => (this.error = error));
     },
-    async fetchListingLimit(id, limit) {
+    async fetchListingLimit(id, address, limit) {
       // console.log(`fetching listings - id: ${id} limit: ${limit}`);
       this.loading = true;
+      this.title = address;
       await fetch(`https://api.nateflateau.com/api/listing_values`, {
         method: "POST",
         mode: "cors",
@@ -65,8 +74,19 @@ export const useChartStore = defineStore({
               {
                 label: "rent",
                 data: data.map(this.getRentArray).reverse(),
+                backgroundColor: "#f87979",
               },
             ],
+          };
+          this.chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              title: {
+                display: true,
+                text: this.title,
+              },
+            },
           };
           this.loading = false;
         })

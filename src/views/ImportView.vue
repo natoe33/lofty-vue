@@ -1,9 +1,9 @@
 <template>
   <main>
     <el-container>
-      <el-aside width="250px">
+      <el-header width="250px">
         <NavBar :home="false" />
-      </el-aside>
+      </el-header>
       <el-main>
         <CsvImport />
       </el-main>
