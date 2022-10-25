@@ -32,12 +32,12 @@ export default {
 
 <template>
   <div class="container">
-    <el-header>
+    <div class="level">
       <NavBar @ListingClicked="onListingClicked" :home="true" />
-    </el-header>
-    <el-main>
+    </div>
+    <section class="section">
       <HomeComp msg="Hello" />
-    </el-main>
+    </section>
   </div>
 </template>
 

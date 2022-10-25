@@ -1,50 +1,61 @@
-<script>
+<script setup>
+import { onMounted, ref } from "vue";
 import BarChart from "./BarChart.vue";
-
 import { storeToRefs } from "pinia";
 import { useChartStore } from "../stores/charts";
 
-export default {
-  name: "HomeComp",
-  components: {
-    BarChart,
-  },
-  props: {
-    msg: String,
-  },
-  setup() {
-    const { chartData, chartOptions, loading, error } = storeToRefs(
-      useChartStore()
-    );
-    const { fetchDailyValues, fetchListingLimit } = useChartStore();
-    //fetchDailyValues();
+const { chartData, chartOptions, loading, error } = ref(storeToRefs(useChartStore()));
+const { fetchDailyValues, fetchListingLimit } = ref(useChartStore());
 
-    return {
-      chartData,
-      chartOptions,
-      loading,
-      error,
-      fetchDailyValues,
-      fetchListingLimit,
-    };
-  },
-  mounted() {
-    this.fetchDailyValues();
-  },
-};
+const props = ref(defineProps({
+  msg: {
+    type: String,
+    required: false
+  }
+})
+)
+
+onMounted(() => {
+  fetchDailyValues();
+})
+// export default {
+//   name: "HomeComp",
+//   components: {
+//     BarChart,
+//   },
+//   props: {
+//     msg: String,
+//   },
+//   setup() {
+//     const { chartData, chartOptions, loading, error } = storeToRefs(
+//       useChartStore()
+//     );
+//     const { fetchDailyValues, fetchListingLimit } = useChartStore();
+//     //fetchDailyValues();
+
+//     return {
+//       chartData,
+//       chartOptions,
+//       loading,
+//       error,
+//       fetchDailyValues,
+//       fetchListingLimit,
+//     };
+//   },
+//   mounted() {
+//     console.log(this.chartOptions);
+//     this.fetchDailyValues();
+//   },
+// };
 </script>
 
 <template>
-  <el-row class="row-bg" justify="center">
-    <el-col :span="10">
-      <h1>Lofty Daily Income</h1>
-    </el-col>
-  </el-row>
-  <el-row>
-    <el-col :span="23">
+  <div class="container">
+    <h1 class="title">Lofty Daily Income</h1>
+    <div class="box">
       <BarChart :chart-data="chartData" :chart-options="chartOptions" />
-    </el-col>
-  </el-row>
+    </div>
+  </div>
 </template>
 
 <style scoped>
