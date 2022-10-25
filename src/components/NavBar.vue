@@ -17,7 +17,11 @@
             <div class="navbar-item" v-for="(state, index) in states" :key="state.state" :index="index">
               <ul><a class="navbar-item">{{ state.state }}</a>
                 <div v-for="listing in listings">
-                  <a class="navbar-item" v-if="listing.state == state.state">{{ listing.address }}</a>
+                  <span class="icon-text">
+                    <span class="icon"><i class="fas fa-home"></i></span>
+                    <a class="navbar-item" v-on:click="$emit('listingClicked', [listing.id, listing.address, limit])"
+                      v-if="listing.state == state.state">{{ listing.address }}</a>
+                  </span>
                 </div>
               </ul>
             </div>
@@ -65,6 +69,7 @@ const props = defineProps({
 
 const states = ref([]);
 const listings = ref([]);
+const limit = ref(30);
 
 const loadStates = async () => {
   await fetch("https://api.nateflateau.com/api/states")
