@@ -23,33 +23,24 @@ onMounted(() => {
     <h1 class="title">Lofty Daily Income</h1>
     <div class="box">
       <BarChart :chart-data="chartData" :chart-options="chartOptions" />
-      <div class="control">
-        <label class="radio">
-          <input
-            type="radio"
-            name="limit"
-            value="30"
-            @click="radioSelected(30)"
-            checked
-          />1 month
-        </label>
-        <label class="radio">
-          <input
-            type="radio"
-            name="limit"
-            value="90"
-            @click="radioSelected(90)"
-          />3 months
-        </label>
-        <label class="radio">
-          <input
-            type="radio"
-            name="limit"
-            value="180"
-            @click="radioSelected(180)"
-          />
-          6 months
-        </label>
+      <div class="tabs is-toggle">
+        <ul>
+          <li class="is-active">
+            <a>
+              <span @click="radioSelected(30)">1 month</span>
+            </a>
+            </li> 
+          <li>
+            <a>
+              <span @click="radioSelected(90)">3 months</span>
+        </a>
+        </li>
+        <li>
+            <a>
+              <span @click="radioSelected(180)">6 months</span>
+        </a>
+        </li>
+        </ul>
       </div>
     </div>
   </div>
