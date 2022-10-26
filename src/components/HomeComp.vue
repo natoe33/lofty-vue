@@ -35,7 +35,7 @@ export default {
       // console.log(getDateLimit.value);
       console.log(limitOptions.value.map(e => e.value).indexOf(90));
       console.log(limitOptions.value.indexOf(90));
-      updateLimit(lim.value[lim]);
+      updateLimit(lim.value['value']);
     };
 
     onMounted(() => {

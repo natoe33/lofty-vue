@@ -26,9 +26,7 @@ export const useChartStore = defineStore({
     getChartOptions: (state) => {
       return state.chartOptions;
     },
-    getDateLimit: () => {
-      return state.limit;
-    }
+    getDateLimit: (state) => state.limit,
   },
   actions: {
     async fetchDailyValues() {
