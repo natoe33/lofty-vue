@@ -34,7 +34,7 @@
               :class="{ 'is-active': addressActive }"
             >
               <a class="navbar-link">Addresses</a>
-              <div class="navbar-dropdown">
+              <div class="navbar-dropdown is-right">
                 <div
                   class="navbar-item"
                   v-for="(state, index) in states"
@@ -56,6 +56,7 @@
                     </div>
                   </ul>
                 </div>
+                <hr class="navbar-divider">
               </div>
             </div>
           </div>
