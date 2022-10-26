@@ -1,14 +1,12 @@
 <template>
-  <main>
-    <el-container>
-      <el-header width="250px">
+    <div class="container">
+      <div class="level">
         <NavBar :home="false" />
-      </el-header>
-      <el-main>
+      </div>
+      <section class="surface-card">
         <CsvImport />
-      </el-main>
-    </el-container>
-  </main>
+      </section>
+    </div>
 </template>
 
 <script setup>

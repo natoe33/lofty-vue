@@ -12,4 +12,6 @@ export default {
   <RouterView />
 </template>
 
-<style scoped></style>
+<style lang="scss">
+@import "primeflex/primeflex.css";
+</style>

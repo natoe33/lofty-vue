@@ -28,6 +28,7 @@ export default {
     },
   },
   created() {
+    console.log("HomeView fetching daily values");
     this.fetchDailyValues();
   },
 };

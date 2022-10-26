@@ -1,75 +1,91 @@
 <template>
-  <!-- <el-row>
-    <el-col :span="24">
-      <h1>Read CSV</h1>
-    </el-col>
-  </el-row>
-  <el-row>
-    <el-col :span="24">
-      <el-upload
-        ref="upload"
-        class="upload"
-        action="https://api.nateflateau.com/api/submit"
-        accept="csv"
-        :limit="1"
-        :on-exceed="handleExceed"
-        :auto-upload="false"
-        :on-success="handleSuccess"
-      >
-        <template #trigger>
-          <el-button type="primary">select file</el-button>
-        </template>
-      </el-upload>
-      <el-button class="ml-3" type="success" @click="submitUpload"
-        >Read</el-button
-      >
-      <template #tip>
-        <div class="el-upload__tip text-red">limit 1 file</div>
-      </template>
-    </el-col>
-  </el-row>
-  <el-main class="main">
-    <div ref="table"></div>
-  </el-main> -->
+  <Toast />
+  <h5>Advanced</h5>
+  <FileUpload name="demo[]" url="https://api.nateflateau.com/api/submit" @upload="onAdvancedUpload($event)" :multiple="true" accept="image/*" :maxFileSize="1000000">
+    <template #content>
+      <ul v-if="uploadedFiles && uploadedFiles[0]">
+        <li v-for="file of uploadedFiles[0]" :key="file">{{ file.name }} - {{ file.size }} bytes</li>
+      </ul>
+    </template>
+    <template #empty>
+      <p>Drag and drop files to here to upload.</p>
+    </template>
+  </FileUpload>
 </template>
-<script setup lang="ts">
-import { ref, reactive, onMounted } from "vue";
-//import { genFileId } from "element-plus";
-//import type { UploadInstance, UploadProps, UploadRawFile } from "element-plus";
-//import { TabulatorFull as Tabulator } from "tabulator-tables";
+<script>
+import { ref } from "vue";
+import { useToast } from 'primevue/usetoast';
 
-// const upload = ref<UploadInstance>();
+export default {
+  setup() {
+    const toast = useToast();
+    const uploadedFile = ref([]);
+    const files = ref([]);
+    const totalSize = ref(0);
+    const totalSizePercent = ref(0);
 
-// const handleExceed: UploadProps['onExceed'] = (files) => {
-//     upload.value!.clearFiles();
-//     const file = files[0] as UploadRawFile;
-//     file.uid = genFileId();
-//     upload.value!.handleStart(file);
-// }
+    const onRemoveTemplatingFile = (file, onFileRemove, index) => {
+            onFileRemove(index);
+            totalSize.value -= parseInt(this.formatSize(file.size));
+            totalSizePercent.value = totalSize.value / 10;
+        }
 
-// const submitUpload = () => {
-//     upload.value!.submit()
-// }
+        const onClearTemplatingUpload = (clear) => {
+            clear();
+            totalSize.value = 0;
+            totalSizePercent.value = 0;
+        }
 
-const handleSuccess = () => {
-  alert("Upload successful");
+        const onSelectedFiles = (event) => {
+            files.value = event.files;
+            files.value.forEach((file) => {
+                totalSize.value += parseInt(this.formatSize(file.size));
+            });
+        }
+
+        const onAdvancedUpload = () => {
+            toast.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 });
+        }
+
+        const uploadEvent = (callback) => {
+            totalSizePercent.value = totalSize.value / 10;
+            callback();
+        }
+
+        const onTemplatedUpload = () => {
+            totalSize.value = 0;
+            totalSizePercent.value = 0;
+            toast.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 });
+        }
+
+        const onUpload = () => {
+            toast.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 });
+        }
+
+        const formatSize = (bytes) => {
+            if (bytes === 0) {
+                return '0 B';
+            }
+
+            let k = 1000,
+                dm = 3,
+                sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+                i = Math.floor(Math.log(bytes) / Math.log(k));
+
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+
+		return { onUpload, onRemoveTemplatingFile, onClearTemplatingUpload, onSelectedFiles, onAdvancedUpload, uploadEvent, onTemplatedUpload, onUpload, formatSize };
+
+  }
 }
 
 </script>
-<style scoped>
-/* .main {
-  float: left;
-  padding-left: 2rem;
+<style lang="scss" scoped>
+  ::v-deep(.custom-progress-bar) {
+    .p-progressbar-value {
+        background-color: #f44336;
+    }
 }
-.main h1,
-.main h3 {
-  text-align: center;
-}
-
-@media (min-width: 1024px) {
-  .main h1,
-  .main h3 {
-    text-align: left;
-  }
-} */
 </style>
