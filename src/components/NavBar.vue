@@ -40,6 +40,7 @@
                   v-for="(state, index) in states"
                   :key="state.state"
                   :index="index"
+                  @click="setItemActive"
                 >
                   <ul>
                     <a class="navbar-item">{{ state.state }}</a>
