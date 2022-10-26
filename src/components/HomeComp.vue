@@ -3,8 +3,8 @@
     <div class="text-3xl font-medium text-900 mb-3">Lofty Daily Income</div>
     <div style="height: 450px" class="border-2 border-dashed surface-border">
       <BarChart :chart-data="data" :chart-options="options" />
-      <SelectButton v-model="value2" :options="limitOptions" dataKey="value" optionLabel="name"
-        @click="radioSelected" aria-labelledby="single" />
+      <SelectButton v-model="lim" :options="limitOptions" dataKey="value" optionLabel="name" @click="radioSelected"
+        aria-labelledby="single" />
     </div>
   </div>
 </template>
@@ -20,21 +20,22 @@ export default {
   },
   setup() {
     const store = useChartStore();
-    // const { chartData, chartOptions, limit } = storeToRefs(store);
-    const { fetchDailyValues, updateLimit } = store;
+    //const { limit, getDateLimit } = storeToRefs(store);
+    const { fetchDailyValues, updateLimit, getDateLimit } = store;
 
-    const value2 = ref();
-    const value3 = ref();
-    const options = ref(['Off', 'On']);
     const limitOptions = ref([
       { name: '1 month', value: 30 },
       { name: '3 months', value: 90 },
       { name: '6 months', value: 180 }
     ]);
+    const lim = ref();
+
     const radioSelected = () => {
-      updateLimit(value2.value['value']);
-      console.log(value2.value['value']);
-      store.fetchDailyValues();
+      // trying to figure out how to set date limit using store.limit
+      // console.log(getDateLimit.value);
+      console.log(limitOptions.value.map(e => e.value).indexOf(90));
+      console.log(limitOptions.value.indexOf(90));
+      updateLimit(lim.value[lim]);
     };
 
     onMounted(() => {
@@ -42,7 +43,7 @@ export default {
     })
 
     return {
-      value2, value3, options, limitOptions, store, radioSelected,
+      lim, limitOptions, store, radioSelected,
       data: computed(() => store.chartData),
       options: computed(() => store.chartOptions),
     }
