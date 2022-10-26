@@ -2,9 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "ui" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "ui" ]
 
 jobs:
 
@@ -28,4 +28,4 @@ jobs:
       with:
         context: .
         push: true
-        tags: natoe33/lofty-vue:latest
+        tags: natoe33/lofty-vue:ui
