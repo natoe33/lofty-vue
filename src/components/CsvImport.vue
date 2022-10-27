@@ -1,7 +1,7 @@
 <template>
   <Toast />
   <h5>Advanced</h5>
-  <FileUpload name="demo[]" url="https://api.nateflateau.com/api/submit" @upload="onAdvancedUpload($event)" :multiple="true" accept="image/*" :maxFileSize="1000000">
+  <FileUpload name="demo[]" url="https://api.nateflateau.com/api/submit" @upload="onAdvancedUpload($event)" accept=".csv" :maxFileSize="1000000">
     <template #content>
       <ul v-if="uploadedFiles && uploadedFiles[0]">
         <li v-for="file of uploadedFiles[0]" :key="file">{{ file.name }} - {{ file.size }} bytes</li>
@@ -11,6 +11,7 @@
       <p>Drag and drop files to here to upload.</p>
     </template>
   </FileUpload>
+  <FileUpload mode="basic" name="demo[]" url="https://api.nateflateau.com/api/submit" accept=".csv" :maxFileSize="1000000" @upload="onUpload" />
 </template>
 <script>
 import { ref } from "vue";
