@@ -3,8 +3,10 @@
     <div class="text-3xl font-medium text-900 mb-3">Lofty Daily Income</div>
     <div style="height: 450px" class="border-2 border-dashed surface-border">
       <BarChart :chart-data="data" :chart-options="options" />
-      <SelectButton v-model="lim" :options="limitOptions" dataKey="value" optionLabel="name" @click="radioSelected"
+      <div class="flex flex-row w-35rem">
+      <SelectButton class="sm:text-xs text-sm flex h-auto" v-model="limit" :options="limitOptions" dataKey="value" optionLabel="name" @click="limitSelected"
         aria-labelledby="single" />
+      </div>
     </div>
   </div>
 </template>
@@ -28,14 +30,14 @@ export default {
       { name: '3 months', value: 90 },
       { name: '6 months', value: 180 }
     ]);
-    const lim = ref();
+    const limit = ref();
 
-    const radioSelected = () => {
+    const limitSelected = () => {
       // trying to figure out how to set date limit using store.limit
       // console.log(getDateLimit.value);
       console.log(limitOptions.value.map(e => e.value).indexOf(90));
       console.log(limitOptions.value.indexOf(90));
-      updateLimit(lim.value['value']);
+      updateLimit(limit.value['value']);
     };
 
     onMounted(() => {
@@ -43,13 +45,10 @@ export default {
     })
 
     return {
-      lim, limitOptions, store, radioSelected,
+      limit, limitOptions, store, limitSelected,
       data: computed(() => store.chartData),
       options: computed(() => store.chartOptions),
     }
   },
 }
 </script>
-<style scoped>
-
-</style>
