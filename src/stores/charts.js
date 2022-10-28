@@ -5,6 +5,8 @@ export const useChartStore = defineStore({
   state: () => ({
     title: null,
     limit: 30,
+    states: [],
+    listings: [],
     chartData: [],
     chartOptions: {
       responsive: true,
@@ -29,6 +31,26 @@ export const useChartStore = defineStore({
     getDateLimit: (state) => state.limit,
   },
   actions: {
+    async fetchListingStates() {
+      await fetch("https://api.nateflateau.com/api/states")
+        .then((response) => response.json())
+        .then((data) => {
+          this.states = data;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    async fetchListings() {
+      await fetch("https://api.nateflateau.com/api/listings")
+        .then((response) => response.json())
+        .then((data) => {
+          this.listings = data;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
     async fetchDailyValues() {
       this.loading = true;
       this.title = "Combined Values";

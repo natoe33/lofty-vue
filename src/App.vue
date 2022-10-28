@@ -1,17 +1,18 @@
-<script>
-import { RouterView } from "vue-router";
-
-export default {
-  components: {
-    RouterView,
-  },
-};
-</script>
-
 <template>
-  <RouterView />
+  <v-app>
+    <NavDrawer />
+    <v-main>
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
 
-<style lang="scss">
-@import "primeflex/primeflex.css";
-</style>
+<script>
+import NavDrawer from "@/components/NavDrawer.vue";
+export default {
+  name: 'App',
+  components: {
+    NavDrawer,
+  },
+}
+</script>
