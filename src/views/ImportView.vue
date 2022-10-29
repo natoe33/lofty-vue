@@ -13,7 +13,7 @@
 
 <script setup>
 import CsvImport from "@/components/CsvImport.vue";
-import NavBar from "@/components/NavBar.vue";
+//import NavBar from "@/components/NavBar.vue";
 </script>
 
 <style>
