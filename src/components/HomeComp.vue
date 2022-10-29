@@ -4,8 +4,15 @@
     <div style="height: 450px" class="border-2 border-dashed surface-border">
       <BarChart :chart-data="data" :chart-options="options" />
       <div class="flex flex-row w-35rem">
-      <SelectButton class="sm:text-xs text-sm flex h-auto" v-model="limit" :options="limitOptions" dataKey="value" optionLabel="name" @click="limitSelected"
-        aria-labelledby="single" />
+        <SelectButton
+          class="sm:text-xs text-sm flex h-auto"
+          v-model="limit"
+          :options="limitOptions"
+          dataKey="value"
+          optionLabel="name"
+          @click="limitSelected"
+          aria-labelledby="single"
+        />
       </div>
     </div>
   </div>
@@ -26,29 +33,32 @@ export default {
     const { fetchDailyValues, updateLimit, getDateLimit } = store;
 
     const limitOptions = ref([
-      { name: '1 month', value: 30 },
-      { name: '3 months', value: 90 },
-      { name: '6 months', value: 180 }
+      { name: "1 month", value: 30 },
+      { name: "3 months", value: 90 },
+      { name: "6 months", value: 180 },
     ]);
     const limit = ref();
 
     const limitSelected = () => {
       // trying to figure out how to set date limit using store.limit
       // console.log(getDateLimit.value);
-      console.log(limitOptions.value.map(e => e.value).indexOf(90));
+      console.log(limitOptions.value.map((e) => e.value).indexOf(90));
       console.log(limitOptions.value.indexOf(90));
-      updateLimit(limit.value['value']);
+      updateLimit(limit.value["value"]);
     };
 
     onMounted(() => {
       fetchDailyValues();
-    })
+    });
 
     return {
-      limit, limitOptions, store, limitSelected,
+      limit,
+      limitOptions,
+      store,
+      limitSelected,
       data: computed(() => store.chartData),
       options: computed(() => store.chartOptions),
-    }
+    };
   },
-}
+};
 </script>
