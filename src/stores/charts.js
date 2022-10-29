@@ -5,8 +5,10 @@ export const useChartStore = defineStore({
   state: () => ({
     title: null,
     limit: 30,
-    states: [],
-    listings: [],
+    id: null,
+    address: null,
+    // states: [],
+    // listings: [],
     chartData: [],
     chartOptions: {
       responsive: true,
@@ -31,31 +33,41 @@ export const useChartStore = defineStore({
     getDateLimit: (state) => state.limit,
   },
   actions: {
-    async fetchListingStates() {
-      await fetch("https://api.nateflateau.com/api/states")
-        .then((response) => response.json())
-        .then((data) => {
-          this.states = data;
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    },
-    async fetchListings() {
-      await fetch("https://api.nateflateau.com/api/listings")
-        .then((response) => response.json())
-        .then((data) => {
-          this.listings = data;
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    },
+    // async fetchListingStates() {
+    //   await fetch("https://api.nateflateau.com/api/states")
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       this.states = data;
+    //     })
+    //     .catch((err) => {
+    //       console.error(err);
+    //     });
+    // },
+    // async fetchListings() {
+    //   await fetch("https://api.nateflateau.com/api/listings")
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       this.listings = data;
+    //     })
+    //     .catch((err) => {
+    //       console.error(err);
+    //     });
+    // },
     async fetchDailyValues() {
       this.loading = true;
       this.title = "Combined Values";
       // debugger;
-      await fetch("https://api.nateflateau.com/api/daily_values")
+      await fetch("https://api.nateflateau.com/api/daily_values", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          limit: this.limit,
+        }),
+      })
         .then((response) => response.json())
         .then((data) => {
           this.chartData = {
@@ -64,7 +76,7 @@ export const useChartStore = defineStore({
               {
                 label: "rent",
                 data: data.map(this.getValueArray).reverse(),
-                backgroundColor: "#f87979",
+                backgroundColor: "#9483ff",
               },
             ],
           };
@@ -86,6 +98,8 @@ export const useChartStore = defineStore({
       // console.log(`fetching listings - id: ${id} limit: ${limit}`);
       this.loading = true;
       this.title = address;
+      this.id = id;
+      this.address = address;
       await fetch(`https://api.nateflateau.com/api/listing_values`, {
         method: "POST",
         mode: "cors",
@@ -107,7 +121,7 @@ export const useChartStore = defineStore({
               {
                 label: "rent",
                 data: data.map(this.getRentArray).reverse(),
-                backgroundColor: "#f87979",
+                backgroundColor: "#9483ff",
               },
             ],
           };
@@ -137,7 +151,14 @@ export const useChartStore = defineStore({
       return array.value;
     },
     updateLimit(num) {
-      return (this.limit = num);
+      this.limit = num;
+      console.log(`limit: ${this.limit}, id: ${this.id}, address: ${this.address}`);
+      if(!this.id && !this.address){
+        this.fetchDailyValues();
+      } else {
+        this.fetchListingLimit(this.id, this.address);
+      }
+      return (this.limit);
     },
   },
 });
