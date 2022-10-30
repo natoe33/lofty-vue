@@ -132,8 +132,10 @@ export const useChartStore = defineStore({
       this.loading = true;
       this.title = state;
       this.state = state;
-      // await fetch(`https://api.nateflateau.com/api/listing_values`, {
-        await fetch(`http://192.168.4.97:8090/api/state_values`, {
+      this.address = this.id = null;
+
+      await fetch(`https://api.nateflateau.com/api/state_values`, {
+      //await fetch(`http://192.168.4.97:8090/api/state_values`, {
         method: "POST",
         mode: "cors",
         headers: {
@@ -189,10 +191,12 @@ export const useChartStore = defineStore({
     updateLimit(num) {
       this.limit = num;
       console.log(`limit: ${this.limit}, id: ${this.id}, address: ${this.address}`);
-      if(!this.id && !this.address){
+      if(!this.id && !this.address && !this.state){
         this.fetchDailyValues();
-      } else {
+      } else if (!this.state && this.id != "" && this.address != ""){
         this.fetchListingLimit(this.id, this.address);
+      } else {
+        this.fetchStateValues(this.state);
       }
       return (this.limit);
     },

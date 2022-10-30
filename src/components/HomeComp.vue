@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto mx-xs-2 my-7 w-auto">
+  <v-card class="mx-auto mx-xs-2 my-7 w-xs-auto w-75">
     <BarChart :chart-data="data" :chart-options="options" />
     <v-card-actions>
     <v-btn-toggle v-model="text" tile color="deep-purple accent-3" group>
