@@ -47,6 +47,7 @@
           <template v-slot:activator="{ props }">
             <v-list-item v-bind="props" :title="state.state" prepend-icon="mdi-folder-home-outline"></v-list-item>
           </template>
+          <v-list-item :key="state.state" :title="state.state" v-on:click="stateClicked(state.state)"></v-list-item>
           <v-list-item
             v-for="listing in listings[state.state].data"
             :key="listing.id"
@@ -77,7 +78,7 @@ export default {
     const store = useListingStore();
     const { fetchListingByState } = store;
     const charts = useChartStore();
-    const { fetchListingLimit } = charts;
+    const { fetchListingLimit, fetchStateValues } = charts;
 
     // Functions
     const updateHomeVal = () => {
@@ -85,6 +86,9 @@ export default {
     };
     const listingClicked = (id, address) => {
       fetchListingLimit(id, address);
+    }
+    const stateClicked = (state) => {
+      fetchStateValues(state);
     }
 
     onMounted(() => {
@@ -99,6 +103,8 @@ export default {
       listings: computed(() => store.byState),
       fetchListingLimit,
       listingClicked,
+      stateClicked
+
     };
   },
   data: () => ({
