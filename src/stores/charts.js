@@ -10,15 +10,11 @@ export const useChartStore = defineStore({
     state: "",
     listings: [],
     chartData: [],
+    lineData: [],
+    lastQuery: "",
     chartOptions: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: {
-        title: {
-          display: true,
-          text: "",
-        },
-      },
       scales: {
         y: {
           max: 1,
@@ -41,6 +37,7 @@ export const useChartStore = defineStore({
     async fetchDailyValues() {
       this.loading = true;
       this.title = "Combined Values";
+      this.lastQuery = "daily_values";
       // debugger;
       await fetch("https://api.nateflateau.com/api/daily_values", {
         method: "POST",
@@ -59,7 +56,7 @@ export const useChartStore = defineStore({
             labels: data.map(this.getDateArray).reverse(),
             datasets: [
               {
-                label: "rent",
+                label: "All Listings",
                 data: data.map(this.getValueArray).reverse(),
                 backgroundColor: "#9483ff",
               },
@@ -68,13 +65,12 @@ export const useChartStore = defineStore({
           this.chartOptions = {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-              title: {
-                display: true,
-                text: this.title,
-              },
-            },
           };
+          this.lineData = Object.assign(
+            this.chartData.labels.map((k, i) => ({
+              [k]: this.chartData.datasets[0].data[i],
+            }))
+          );
           this.loading = false;
         })
         .catch((error) => this.$patch({ error: error }));
@@ -85,8 +81,9 @@ export const useChartStore = defineStore({
       this.title = address;
       this.id = id;
       this.address = address;
+      this.lastQuery = "listing_limit";
       // await fetch(`https://api.nateflateau.com/api/listing_values`, {
-        await fetch(`http://192.168.4.97:8090/api/listing_values`, {
+      await fetch(`http://192.168.4.97:8090/api/listing_values`, {
         method: "POST",
         mode: "cors",
         headers: {
@@ -105,7 +102,7 @@ export const useChartStore = defineStore({
             labels: data.map(this.getDateArray).reverse(),
             datasets: [
               {
-                label: "rent",
+                label: this.title,
                 data: data.map(this.getRentArray).reverse(),
                 backgroundColor: "#9483ff",
               },
@@ -114,12 +111,6 @@ export const useChartStore = defineStore({
           this.chartOptions = {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-              title: {
-                display: true,
-                text: this.title,
-              },
-            },
           };
           this.loading = false;
         })
@@ -133,9 +124,10 @@ export const useChartStore = defineStore({
       this.title = state;
       this.state = state;
       this.address = this.id = null;
+      this.lastQuery = "state_values";
 
-      await fetch(`https://api.nateflateau.com/api/state_values`, {
-      //await fetch(`http://192.168.4.97:8090/api/state_values`, {
+      //await fetch(`https://api.nateflateau.com/api/state_values`, {
+      await fetch(`http://192.168.4.97:8090/api/state_values`, {
         method: "POST",
         mode: "cors",
         headers: {
@@ -143,7 +135,7 @@ export const useChartStore = defineStore({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          state: state,
+          state: this.state,
           limit: this.limit,
         }),
       })
@@ -154,7 +146,7 @@ export const useChartStore = defineStore({
             labels: data.map(this.getDateArray).reverse(),
             datasets: [
               {
-                label: "rent",
+                label: this.state,
                 data: data.map(this.getValArray).reverse(),
                 backgroundColor: "#9483ff",
               },
@@ -163,12 +155,6 @@ export const useChartStore = defineStore({
           this.chartOptions = {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-              title: {
-                display: true,
-                text: this.title,
-              },
-            },
           };
           this.loading = false;
         })
@@ -188,17 +174,20 @@ export const useChartStore = defineStore({
     getValArray(array) {
       return array.val;
     },
+    getQuantityArray(array) {
+      return array.quantity;
+    },
     updateLimit(num) {
       this.limit = num;
-      console.log(`limit: ${this.limit}, id: ${this.id}, address: ${this.address}`);
-      if(!this.id && !this.address && !this.state){
+      // lastQuery values: [state_values, listing_limit, daily_values]
+      if (this.lastQuery == "daily_values") {
         this.fetchDailyValues();
-      } else if (!this.state && this.id != "" && this.address != ""){
+      } else if (this.lastQuery == "listing_limit") {
         this.fetchListingLimit(this.id, this.address);
-      } else {
+      } else if (this.lastQuery == "state_values") {
         this.fetchStateValues(this.state);
       }
-      return (this.limit);
+      return this.limit;
     },
   },
 });

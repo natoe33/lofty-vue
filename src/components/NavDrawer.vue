@@ -6,7 +6,14 @@
     <v-spacer></v-spacer>
   </v-app-bar>
 
-  <v-navigation-drawer app v-model="drawer" class="w-auto" absolute bottom temporary>
+  <v-navigation-drawer
+    app
+    v-model="drawer"
+    class="w-auto"
+    absolute
+    bottom
+    temporary
+  >
     <v-list nav dense>
       <!--<v-list-item-group
         v-model="group"
@@ -32,6 +39,8 @@
         </v-list-item>
       </v-list-item-group>
       <v-divider></v-divider>-->
+      <v-list-item v-on:click="allClicked">All Listings</v-list-item>
+      <v-divider></v-divider>
       <v-list-group value="Addresses">
         <template v-slot:activator="{ props }">
           <v-list-item
@@ -41,13 +50,21 @@
           >
           </v-list-item>
         </template>
+
         <v-list-group
           v-for="(state, index) in listings"
-          :value="state.state">
+          :value="state.state"
+          :key="state.state"
+        >
           <template v-slot:activator="{ props }">
-            <v-list-item v-bind="props" :title="state.state" prepend-icon="mdi-folder-home-outline"></v-list-item>
+            <v-list-item
+              v-bind="props"
+              :title="state.state"
+              :tabindex="index"
+              prepend-icon="mdi-folder-home-outline"
+              v-on:click="stateClicked(state.state)"
+            ></v-list-item>
           </template>
-          <v-list-item :key="state.state" :title="state.state" v-on:click="stateClicked(state.state)"></v-list-item>
           <v-list-item
             v-for="listing in listings[state.state].data"
             :key="listing.id"
@@ -78,7 +95,7 @@ export default {
     const store = useListingStore();
     const { fetchListingByState } = store;
     const charts = useChartStore();
-    const { fetchListingLimit, fetchStateValues } = charts;
+    const { fetchListingLimit, fetchStateValues, fetchDailyValues } = charts;
 
     // Functions
     const updateHomeVal = () => {
@@ -86,13 +103,16 @@ export default {
     };
     const listingClicked = (id, address) => {
       fetchListingLimit(id, address);
-    }
+    };
     const stateClicked = (state) => {
       fetchStateValues(state);
-    }
+    };
+    const allClicked = () => {
+      fetchDailyValues();
+    };
 
     onMounted(() => {
-      console.log("On mount");
+      // console.log("On mount");
       fetchListingByState();
     });
 
@@ -103,8 +123,8 @@ export default {
       listings: computed(() => store.byState),
       fetchListingLimit,
       listingClicked,
-      stateClicked
-
+      stateClicked,
+      allClicked,
     };
   },
   data: () => ({
